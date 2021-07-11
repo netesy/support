@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: AntonioCarlos
@@ -6,7 +7,7 @@
  * Time: 01:44
  */
 
-namespace PragmaRX\Support\GeoIp;
+namespace Netesy\Support\GeoIp;
 
 
 interface GeoIpContract

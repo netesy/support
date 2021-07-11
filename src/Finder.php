@@ -1,10 +1,11 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 
-class Finder {
+class Finder
+{
 
 	/**
 	 * Create instance of Finder
@@ -25,7 +26,7 @@ class Finder {
 	{
 		return $this->finder->files();
 	}
-	
+
 	/**
 	 * Use directories selector
 	 * 
@@ -46,5 +47,4 @@ class Finder {
 	{
 		return $this->in($path);
 	}
-
 }

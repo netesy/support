@@ -1,7 +1,7 @@
 <?php
- 
-namespace PragmaRX\Support\Exceptions;
 
-class EnvironmentVariableNotSet extends Exception {
+namespace Netesy\Support\Exceptions;
 
+class EnvironmentVariableNotSet extends Exception
+{
 }

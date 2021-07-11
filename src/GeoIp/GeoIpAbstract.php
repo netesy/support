@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\GeoIp;
+namespace Netesy\Support\GeoIp;
 
 class GeoIpAbstract
 {
@@ -13,14 +13,16 @@ class GeoIpAbstract
     /**
      * @return boolean
      */
-    public function isEnabled() {
+    public function isEnabled()
+    {
         return $this->enabled;
     }
 
     /**
      * @param boolean $enabled
      */
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this->enabled = $enabled;
     }
 }

@@ -5,11 +5,12 @@
  *
  */
 
-namespace PragmaRX\Support\Debug;
+namespace Netesy\Support\Debug;
 
 use Symfony\Component\VarDumper\Dumper\HtmlDumper as SymfonyHtmlDumper;
 
-class HtmlDumper extends SymfonyHtmlDumper {
+class HtmlDumper extends SymfonyHtmlDumper
+{
 
 	/**
 	 * Colour definitions for output.
@@ -31,5 +32,4 @@ class HtmlDumper extends SymfonyHtmlDumper {
 		'key' => 'color:#df5000',
 		'index' => 'color:#a71d5d',
 	);
-
 }

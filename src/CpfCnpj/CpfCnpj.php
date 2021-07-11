@@ -1,6 +1,6 @@
 <?php
- 
-namespace PragmaRX\Support\CpfCnpj;
+
+namespace Netesy\Support\CpfCnpj;
 
 use Illuminate\Support\Str;
 
@@ -96,12 +96,11 @@ abstract class CpfCnpj
      */
     public static function gerar()
     {
-        $number = static::random_str(static::$length-2);
+        $number = static::random_str(static::$length - 2);
         $final = '';
         $counter = 0;
 
-        while (! static::validar($final))
-        {
+        while (!static::validar($final)) {
             $final = $number . sprintf('%02d', $counter);
 
             $counter++;
@@ -110,7 +109,8 @@ abstract class CpfCnpj
         return $final;
     }
 
-    private static function random_str($length, $keyspace = '0123456789') {
+    private static function random_str($length, $keyspace = '0123456789')
+    {
         $str = '';
         $max = mb_strlen($keyspace, '8bit') - 1;
 

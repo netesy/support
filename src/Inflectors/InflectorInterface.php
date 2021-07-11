@@ -1,12 +1,12 @@
 <?php
 
-namespace PragmaRX\Support\Inflectors;
+namespace Netesy\Support\Inflectors;
 
 
-interface InflectorInterface {
+interface InflectorInterface
+{
 
-	public function plural($word);
+    public function plural($word);
 
     public function singular($word);
-
-} 
+}

@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\GeoIp;
+namespace Netesy\Support\GeoIp;
 
 class Updater
 {
@@ -30,7 +30,7 @@ class Updater
 
         $this->md5File = $this->getHTTPFile($geoDbMd5Url, $destinationPath . DIRECTORY_SEPARATOR);
 
-        if (! file_exists($destinationGeoDbFile)) {
+        if (!file_exists($destinationGeoDbFile)) {
             return false;
         }
 
@@ -50,7 +50,7 @@ class Updater
      */
     protected function downloadGzipped($destinationPath, $geoDbUrl)
     {
-        if (! $this->databaseFileGzipped = $this->getHTTPFile($geoDbUrl, ($destination = $destinationPath . DIRECTORY_SEPARATOR))) {
+        if (!$this->databaseFileGzipped = $this->getHTTPFile($geoDbUrl, ($destination = $destinationPath . DIRECTORY_SEPARATOR))) {
             $this->addMessage("Unable to download file {$geoDbUrl} to {$destination}.");
         }
 
@@ -97,7 +97,7 @@ class Updater
      */
     private function md5Match()
     {
-        if (! $match = md5_file($this->databaseFile) == file_get_contents($this->md5File)) {
+        if (!$match = md5_file($this->databaseFile) == file_get_contents($this->md5File)) {
             $this->addMessage("MD5 is not matching for {$this->databaseFile} and {$this->md5File}.");
 
             return false;
@@ -153,21 +153,20 @@ class Updater
     {
         set_time_limit(360);
 
-        if (! $this->makeDir($destinationPath)) {
+        if (!$this->makeDir($destinationPath)) {
             return false;
         }
 
         $fileWriteName = $destinationPath . basename($uri);
 
-        if (($fileRead = @fopen($uri,"rb")) === false || ($fileWrite = @fopen($fileWriteName, 'wb')) === false) {
+        if (($fileRead = @fopen($uri, "rb")) === false || ($fileWrite = @fopen($fileWriteName, 'wb')) === false) {
             $this->addMessage("Unable to open {$uri} (read) or {$fileWriteName} (write).");
 
             return false;
         }
 
-        while(! feof($fileRead))
-        {
-            $content = @fread($fileRead, 1024*16);
+        while (!feof($fileRead)) {
+            $content = @fread($fileRead, 1024 * 16);
 
             $success = fwrite($fileWrite, $content);
 
@@ -207,7 +206,7 @@ class Updater
             return false;
         }
 
-        while(!gzeof($fileRead)) {
+        while (!gzeof($fileRead)) {
             $success = fwrite($fileWrite, gzread($fileRead, $buffer_size));
 
             if ($success === false) {

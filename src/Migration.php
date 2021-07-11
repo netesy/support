@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Illuminate\Database\Migrations\Migration as IlluminateMigration;
 use Illuminate\Database\Schema\Blueprint;
@@ -90,12 +90,9 @@ abstract class Migration extends IlluminateMigration
 	{
 		$this->connection->beginTransaction();
 
-		try 
-		{
+		try {
 			$this->{$method}();
-		} 
-		catch (\Exception $exception)
-		{
+		} catch (\Exception $exception) {
 			$this->connection->rollback();
 
 			$this->handleException($exception);
@@ -110,10 +107,8 @@ abstract class Migration extends IlluminateMigration
 	 */
 	protected function dropAllTables()
 	{
-		foreach ($this->tables as $table)
-		{
-			if ($this->tableExists($table))
-			{
+		foreach ($this->tables as $table) {
+			if ($this->tableExists($table)) {
 				$this->builder->drop($table);
 			}
 		}
@@ -138,16 +133,13 @@ abstract class Migration extends IlluminateMigration
 	protected function handleException($exception)
 	{
 		$previous = property_exists($exception, 'previous')
-					? $exception->previous
-					: $exception;
+			? $exception->previous
+			: $exception;
 
-		if ($exception instanceof \Illuminate\Database\QueryException)
-		{
+		if ($exception instanceof \Illuminate\Database\QueryException) {
 			throw new $exception($exception->getMessage(), $exception->getBindings(), $previous);
-		}
-		else
-		{
-            throw new $exception($exception->getMessage(), $exception->getCode(), $previous);
+		} else {
+			throw new $exception($exception->getMessage(), $exception->getCode(), $previous);
 		}
 	}
 
@@ -171,10 +163,8 @@ abstract class Migration extends IlluminateMigration
 	{
 		// Check for its existence before dropping
 
-		if (Schema::hasColumn($tableName, $column))
-		{
-			Schema::table($tableName, function(Blueprint $table) use ($column)
-			{
+		if (Schema::hasColumn($tableName, $column)) {
+			Schema::table($tableName, function (Blueprint $table) use ($column) {
 				$table->dropColumn($column);
 			});
 		}
@@ -182,29 +172,23 @@ abstract class Migration extends IlluminateMigration
 
 	protected function checkConnection()
 	{
-		if ($this->isLaravel())
-		{
-            if ( ! $this->connection)
-            {
-                $this->manager = app()->make('db');
+		if ($this->isLaravel()) {
+			if (!$this->connection) {
+				$this->manager = app()->make('db');
 
-                $this->connection = $this->manager->connection();
-            }
+				$this->connection = $this->manager->connection();
+			}
 
 			$this->builder = $this->connection->getSchemaBuilder();
-		}
-		else
-		{
+		} else {
 			throw new Exception('This migrator must be ran from inside a Laravel application.');
 		}
 	}
 
 	public function drop($table)
 	{
-		if ($this->tableExists($table))
-		{
+		if ($this->tableExists($table)) {
 			$this->builder->drop($table);
 		}
 	}
-
 }

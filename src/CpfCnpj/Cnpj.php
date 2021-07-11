@@ -1,6 +1,6 @@
 <?php
- 
-namespace PragmaRX\Support\CpfCnpj;
+
+namespace Netesy\Support\CpfCnpj;
 
 /**
  * @see     https://raw.github.com/sinergia/brasil/master/Sinergia/Brasil/CPF.php
@@ -33,8 +33,7 @@ class Cnpj extends CpfCnpj
         $filiais     = substr($cnpj, 8, 4);
         $verificador = substr($cnpj, 12);
 
-        if (! empty($partes) && ! empty($filiais) && ! empty($verificador))
-        {
+        if (!empty($partes) && !empty($filiais) && !empty($verificador)) {
             return implode(".", $partes) . '/' . $filiais . '-' . $verificador;
         }
 
@@ -59,7 +58,7 @@ class Cnpj extends CpfCnpj
             return false;
         }
         // Primeiro dígito
-        $multiplicadores = array (5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
+        $multiplicadores = array(5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
         $soma            = 0;
         for ($i = 0; $i <= 11; $i++) {
             $soma += $multiplicadores[$i] * $cnpj[$i];
@@ -69,7 +68,7 @@ class Cnpj extends CpfCnpj
             $d1 = 0;
         }
         // Segundo dígito
-        $multiplicadores = array (6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
+        $multiplicadores = array(6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
         $soma            = 0;
         for ($i = 0; $i <= 12; $i++) {
             $soma += $multiplicadores[$i] * $cnpj[$i];

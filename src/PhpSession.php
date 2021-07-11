@@ -1,25 +1,24 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 class PhpSession
 {
 
-	const DEFAULT_NAMESPACE = 'pragmarx/phpsession';
+	const DEFAULT_NAMESPACE = 'Netesy/phpsession';
 
 	private $namespace;
 
 	public function __construct($namespace = null)
 	{
-	    $this->startSession();
+		$this->startSession();
 
 		$this->setNamespace($namespace);
 	}
 
 	private function startSession()
 	{
-		if ( ! $this->isStarted())
-		{
+		if (!$this->isStarted()) {
 			session_start();
 		}
 	}
@@ -34,8 +33,8 @@ class PhpSession
 		$session = $this->getNamespaceData($namespace);
 
 		return isset($session[$key])
-				? $session[$key]
-				: null;
+			? $session[$key]
+			: null;
 	}
 
 	public function has($key, $namespace = null)
@@ -56,8 +55,7 @@ class PhpSession
 
 	public function setNamespace($namespace)
 	{
-		if ($namespace)
-		{
+		if ($namespace) {
 			$this->namespace = $namespace;
 		}
 	}
@@ -101,5 +99,4 @@ class PhpSession
 	{
 		return session_status();
 	}
-
 }

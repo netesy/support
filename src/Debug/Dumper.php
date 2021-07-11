@@ -5,12 +5,13 @@
  *
  */
 
-namespace PragmaRX\Support\Debug;
+namespace Netesy\Support\Debug;
 
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 
-class Dumper {
+class Dumper
+{
 
 	/**
 	 * Dump a value with elegance.
@@ -24,5 +25,4 @@ class Dumper {
 
 		$dumper->dump((new VarCloner)->cloneVar($value));
 	}
-
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Illuminate\Cache\CacheManager as IlluminateCacheManager;
 
-class CacheManager extends IlluminateCacheManager {
-
+class CacheManager extends IlluminateCacheManager
+{
 }

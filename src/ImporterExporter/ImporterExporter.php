@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\ImporterExporter;
+namespace Netesy\Support\ImporterExporter;
 
 use Storage;
 use Exception;
@@ -33,24 +33,20 @@ class ImporterExporter
             "\t",
         ];
 
-        foreach ($delimiters as $delimiter)
-        {
-            if (strpos($data, $delimiter) > 0)
-            {
+        foreach ($delimiters as $delimiter) {
+            if (strpos($data, $delimiter) > 0) {
                 break;
             }
         }
 
         $enclosures = [
-            '"'.$delimiter.'"',
-            "'".$delimiter."'",
+            '"' . $delimiter . '"',
+            "'" . $delimiter . "'",
             '', // must always be last!
         ];
 
-        foreach ($enclosures as $enclosure)
-        {
-            if (empty($enclosure) || strpos($data, $enclosure) > 0)
-            {
+        foreach ($enclosures as $enclosure) {
+            if (empty($enclosure) || strpos($data, $enclosure) > 0) {
                 break;
             }
         }
@@ -70,9 +66,8 @@ class ImporterExporter
     {
         $type = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        if (! in_array($type, static::SUPPORTED_TYPES))
-        {
-            throw new \Exception('File type not supported, it must be one of those: '.join(', ', static::SUPPORTED_TYPES));
+        if (!in_array($type, static::SUPPORTED_TYPES)) {
+            throw new \Exception('File type not supported, it must be one of those: ' . join(', ', static::SUPPORTED_TYPES));
         }
 
         return $type;
@@ -82,34 +77,36 @@ class ImporterExporter
     {
         $type = $this->identifyType($fileName);
 
-        if ($type == 'json')
-        {
+        if ($type == 'json') {
             return $this->importFromJson($fileName);
         }
 
-        if ($type == 'csv')
-        {
+        if ($type == 'csv') {
             return $this->importFromCsv($fileName);
         }
     }
 
     public function addProfile($id, $callback)
     {
-        $this->profiles[ $id ] = $callback;
+        $this->profiles[$id] = $callback;
     }
 
     public function executeProfile($profileId)
     {
-        $profile = $this->profiles[ $profileId ];
+        $profile = $this->profiles[$profileId];
 
         $this->data = $profile($this, $this->data);
 
         return $this;
     }
 
-    public function exportToCSV($filename, $data, $delimiter = self::CSV_DELIMITER, $enclosure = self::CSV_ENCLOSURE,
-                                $arrayIndexAsHeader = false)
-    {
+    public function exportToCSV(
+        $filename,
+        $data,
+        $delimiter = self::CSV_DELIMITER,
+        $enclosure = self::CSV_ENCLOSURE,
+        $arrayIndexAsHeader = false
+    ) {
         $fp = fopen($filename, 'w');
         $hasHeader = false;
         foreach ($data as $fields) {
@@ -153,37 +150,28 @@ class ImporterExporter
         $data = $this->getRawDataFromFile($filename);
         $data = preg_split('/\n|\r\n?/', $data);
 
-        if ($data)
-        {
+        if ($data) {
             list($delimiter, $enclosure) = $this->detectCsvConfig($data[0]);
 
             $data[0] = preg_replace('/[\x00-\x1F\x7F]/', '', $data[0]);
 
             $keys = $this->importCsv($data[0], $delimiter, $enclosure, $escape);
 
-            foreach ($data as $row)
-            {
-                if (empty(trim($row)))
-                {
+            foreach ($data as $row) {
+                if (empty(trim($row))) {
                     continue;
                 }
 
-                if (mb_detect_encoding($row, null, true) !== 'UTF-8')
-                {
+                if (mb_detect_encoding($row, null, true) !== 'UTF-8') {
                     $row = utf8_encode($row);
-                }
-                else
-                {
+                } else {
                     $row = utf8_decode($row);
                 }
 
-                if ($row = $this->importCsv($row, $delimiter, $enclosure, $escape))
-                {
+                if ($row = $this->importCsv($row, $delimiter, $enclosure, $escape)) {
                     try {
                         $result[] = array_combine($keys, $row);
-                    }
-                    catch (\Exception $exception)
-                    {
+                    } catch (\Exception $exception) {
                         echo "Error in file: ";
                         dd($row);
                     }

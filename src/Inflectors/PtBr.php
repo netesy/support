@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\Inflectors;
+namespace Netesy\Support\Inflectors;
 
 /**
  *    --------------------------------------------------------------------------------------
@@ -9,29 +9,30 @@ namespace PragmaRX\Support\Inflectors;
  *    Precisa analisar também a questão das  palavras  compostas,  onde,  no  português,  na
  *    maioria das vezes, a pluralização ocorre no primeiro termo.
  */
- 
-class PtBr implements InflectorInterface {
+
+class PtBr implements InflectorInterface
+{
     /**
-      *    Regras de singularização/pluralização
-      */
+     *    Regras de singularização/pluralização
+     */
     protected $rules = array(
-      //singular     plural
-        'ão'    => 'ões', 
-        'ês'    => 'eses', 
-        'm'     => 'ns', 
-        'l'     => 'is', 
-        'r'     => 'res', 
-        'x'     => 'xes', 
-        'z'     => 'zes', 
+        //singular     plural
+        'ão'    => 'ões',
+        'ês'    => 'eses',
+        'm'     => 'ns',
+        'l'     => 'is',
+        'r'     => 'res',
+        'x'     => 'xes',
+        'z'     => 'zes',
     );
 
     /**
-      *    Exceções às regras
-      */
+     *    Exceções às regras
+     */
     protected $exceptions = array(
         'cidadão' => 'cidadãos',
         'mão'     => 'mãos',
-        'qualquer'=> 'quaisquer',
+        'qualquer' => 'quaisquer',
         'campus'  => 'campi',
         'lápis'   => 'lápis',
         'ônibus'  => 'ônibus',
@@ -46,11 +47,11 @@ class PtBr implements InflectorInterface {
     public function plural($word)
     {
         //Pertence a alguma exceção?
-        if (array_key_exists($word, $this->exceptions)):
+        if (array_key_exists($word, $this->exceptions)) :
             return $this->exceptions[$word];
         //Não pertence a nenhuma exceção. Mas tem alguma regra?
-        else:
-            foreach($this->rules as $singular=>$plural):
+        else :
+            foreach ($this->rules as $singular => $plural) :
                 if (preg_match("({$singular}$)", $word))
                     return preg_replace("({$singular}$)", $plural, $word);
             endforeach;
@@ -61,7 +62,7 @@ class PtBr implements InflectorInterface {
             return $word . 's';
         return $word;
     }
-    
+
     /**
      *    Passa uma palavra para o singular
      *    
@@ -71,19 +72,19 @@ class PtBr implements InflectorInterface {
     public function singular($word)
     {
         //Pertence às exceçÃµes?
-        if (in_array($word, $this->exceptions)):
+        if (in_array($word, $this->exceptions)) :
             $invert = array_flip($this->exceptions);
             return $invert[$word];
         //Não é execeção.. Mas pertence a alguma regra?
-        else:
-            foreach($this->rules as $singular => $plural):
-                if (preg_match("({$plural}$)",$word))
+        else :
+            foreach ($this->rules as $singular => $plural) :
+                if (preg_match("({$plural}$)", $word))
                     return preg_replace("({$plural}$)", $singular, $word);
             endforeach;
         endif;
         //Nem é exceção, nem tem regra definida. 
         //Apaga a última somente se for um "s" no final
-		if (substr($word, -1) == 's')
+        if (substr($word, -1) == 's')
             return substr($word, 0, -1);
         return $word;
     }

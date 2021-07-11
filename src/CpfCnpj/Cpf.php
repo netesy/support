@@ -1,6 +1,6 @@
 <?php
- 
-namespace PragmaRX\Support\CpfCnpj;
+
+namespace Netesy\Support\CpfCnpj;
 
 /**
  * @see     https://raw.github.com/sinergia/brasil/master/Sinergia/Brasil/CPF.php
@@ -30,8 +30,7 @@ class Cpf extends CpfCnpj
         $partes      = str_split($cpf, 3);
         $verificador = array_pop($partes);
 
-        if (! empty($partes = implode(".", $partes)) && ! empty($verificador))
-        {
+        if (!empty($partes = implode(".", $partes)) && !empty($verificador)) {
             return  $partes . '-' . $verificador;
         }
 

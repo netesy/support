@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\GeoIp;
+namespace Netesy\Support\GeoIp;
 
 use GeoIp2\Database\Reader as GeoIpReader;
 
@@ -25,14 +25,15 @@ class GeoIp
 
     private function getGeoIp()
     {
-        if (! $this->geoIp && $this->databaseExists()) {
+        if (!$this->geoIp && $this->databaseExists()) {
             $this->geoIp = $this->getGeoIpInstance($this->databasePath);
         }
 
         return $this->geoIp;
     }
 
-    public function searchAddr($addr) {
+    public function searchAddr($addr)
+    {
         if ($geoip = $this->getGeoIp()) {
             return $geoip->searchAddr($addr);
         }
@@ -41,24 +42,27 @@ class GeoIp
     /**
      * @return boolean
      */
-    public function isEnabled() {
+    public function isEnabled()
+    {
         return $this->getGeoIp()->isEnabled();
     }
 
     /**
      * @param boolean $enabled
      */
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         return $this->getGeoIp()->setEnabled($enabled);
     }
 
-    public function isGeoIpAvailable() {
+    public function isGeoIpAvailable()
+    {
         return $this->getGeoIp()->isGeoIpAvailable();
     }
 
-    private function getGeoIpInstance($databasePath = null) {
-        if (class_exists(GeoIpReader::class))
-        {
+    private function getGeoIpInstance($databasePath = null)
+    {
+        if (class_exists(GeoIpReader::class)) {
             return new GeoIp2($databasePath);
         }
 

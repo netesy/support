@@ -1,10 +1,11 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Illuminate\Contracts\Config\Repository as IlluminateConfig;
 
-class Config {
+class Config
+{
 
     protected $config;
 
@@ -19,12 +20,11 @@ class Config {
 
     public function get($key, $default = null)
     {
-        return $this->config->get($this->namespace.$key, $default);
+        return $this->config->get($this->namespace . $key, $default);
     }
 
     public function set($key, $value = null)
     {
-        $this->config->set($this->namespace.$key, $value);
+        $this->config->set($this->namespace . $key, $value);
     }
-
 }

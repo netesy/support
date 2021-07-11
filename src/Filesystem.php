@@ -1,9 +1,9 @@
 <?php
- 
-namespace PragmaRX\Support;
+
+namespace Netesy\Support;
 
 use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
 
-class Filesystem extends IlluminateFilesystem {
-
+class Filesystem extends IlluminateFilesystem
+{
 }

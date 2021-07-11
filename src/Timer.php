@@ -1,8 +1,9 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
-class Timer {
+class Timer
+{
 
 	/**
 	 * Started at time.
@@ -108,7 +109,7 @@ class Timer {
 	 */
 	private function isStarted($timer = 'default')
 	{
-		return !$this->isStopped($timer) && ! is_null(static::$startedAt[$timer]);
+		return !$this->isStopped($timer) && !is_null(static::$startedAt[$timer]);
 	}
 
 	/**
@@ -119,7 +120,7 @@ class Timer {
 	 */
 	private function isStopped($timer = 'default')
 	{
-		return ! is_null(static::$stoppedAt[$timer]);
+		return !is_null(static::$stoppedAt[$timer]);
 	}
 
 	/**
@@ -131,14 +132,13 @@ class Timer {
 	 */
 	private function elapsedRaw($timer = 'default', $stop = true)
 	{
-		if ($stop)
-		{
+		if ($stop) {
 			static::stop($timer);
 		}
 
 		$end = static::isStopped($timer)
-				? static::$stoppedAt[$timer]
-				: microtime(true);
+			? static::$stoppedAt[$timer]
+			: microtime(true);
 
 		return abs($end - static::$startedAt[$timer]);
 	}
@@ -164,8 +164,7 @@ class Timer {
 	 */
 	public static function __callStatic($name, array $arguments)
 	{
-		if ( ! static::$instance)
-		{
+		if (!static::$instance) {
 			$class = __CLASS__;
 
 			static::$instance = new $class;
@@ -185,5 +184,4 @@ class Timer {
 	{
 		return call_user_func_array([$this, $name], $arguments);
 	}
-	
 }

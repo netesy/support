@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
@@ -45,7 +45,7 @@ class YamlConfig
      */
     public function listFiles($directory)
     {
-        if (! file_exists($directory)) {
+        if (!file_exists($directory)) {
             return collect([]);
         }
 
@@ -218,7 +218,7 @@ class YamlConfig
         if (is_array($file)) {
             return [
                 false,
-                collect($file)->mapWithKeys(function($subfile, $key) use ($parseYaml) {
+                collect($file)->mapWithKeys(function ($subfile, $key) use ($parseYaml) {
                     list($subfile, $contents) = $this->loadFile($subfile, $parseYaml);
 
                     return [$subfile => $contents];

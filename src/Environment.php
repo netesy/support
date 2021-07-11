@@ -1,11 +1,12 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Exception;
-use PragmaRX\Support\Exceptions\EnvironmentVariableNotSet;
+use Netesy\Support\Exceptions\EnvironmentVariableNotSet;
 
-class Environment {
+class Environment
+{
 
 	const APP_ENV = 'APP_ENV';
 
@@ -34,7 +35,9 @@ class Environment {
 	{
 		static::load($file);
 
-		return function() { return self::name() ; };
+		return function () {
+			return self::name();
+		};
 	}
 
 	/**
@@ -45,17 +48,14 @@ class Environment {
 	 */
 	public static function load($file = null)
 	{
-		if ( ! static::$hasBeenLoaded)
-		{
-			if ( ! file_exists($file))
-			{
+		if (!static::$hasBeenLoaded) {
+			if (!file_exists($file)) {
 				static::raiseEnvironmentVariableNotSet();
 			}
 
 			$data = require $file;
-			foreach ($data as $key => $value)
-			{
-			    putenv(sprintf('%s=%s', $key, static::toString($value)));
+			foreach ($data as $key => $value) {
+				putenv(sprintf('%s=%s', $key, static::toString($value)));
 			}
 
 			static::$hasBeenLoaded = true;
@@ -74,20 +74,16 @@ class Environment {
 
 		// If you need somehow to bypass the environment, just create this helper function
 
-		if (isset(static::$bypassed[$variable]))
-		{
+		if (isset(static::$bypassed[$variable])) {
 			$value = static::$bypassed[$variable];
 		}
 
-		if ( ! isset($value))
-		{
+		if (!isset($value)) {
 			$value = getenv($variable);
 		}
 
-		if ($value == false || empty($value))
-		{
-			if ($default === '#default#')
-			{
+		if ($value == false || empty($value)) {
+			if ($default === '#default#') {
 				static::raiseEnvironmentVariableNotSet();
 			}
 
@@ -106,20 +102,14 @@ class Environment {
 
 	private static function toString($value)
 	{
-		if ($value === true)
-		{
+		if ($value === true) {
 			$value = '(true)';
 		}
-		if ($value === false)
-		{
+		if ($value === false) {
 			$value = '(false)';
-		}
-		elseif ($value === null)
-		{
+		} elseif ($value === null) {
 			$value = '(null)';
-		}
-		elseif (empty($value))
-		{
+		} elseif (empty($value)) {
 			$value = '(empty)';
 		}
 
@@ -128,20 +118,13 @@ class Environment {
 
 	private static function fromString($value)
 	{
-		if ($value === 'true' || $value === '(true)')
-		{
+		if ($value === 'true' || $value === '(true)') {
 			$value = true;
-		}
-		elseif ($value === 'false' || $value === '(false)')
-		{
+		} elseif ($value === 'false' || $value === '(false)') {
 			$value = false;
-		}
-		elseif ($value === '(null)')
-		{
+		} elseif ($value === '(null)') {
 			$value = null;
-		}
-		elseif ($value === '(empty)')
-		{
+		} elseif ($value === '(empty)') {
 			$value = '';
 		}
 
@@ -152,13 +135,11 @@ class Environment {
 	{
 		$host = explode('.', static::getHostname())[0];
 
-		if (in_array($host, ['testing', 'local', 'development', 'production', 'staging']))
-		{
+		if (in_array($host, ['testing', 'local', 'development', 'production', 'staging'])) {
 			return $host;
 		}
 
-		if (isset(static::$bypassed[static::APP_ENV]))
-		{
+		if (isset(static::$bypassed[static::APP_ENV])) {
 			return static::$bypassed[static::APP_ENV];
 		}
 
@@ -169,7 +150,7 @@ class Environment {
 	{
 		$env = static::name();
 
-		putenv(static::APP_ENV.'='.$env);
+		putenv(static::APP_ENV . '=' . $env);
 
 		app()['env'] = $env;
 	}
@@ -181,10 +162,8 @@ class Environment {
 
 	private static function getHostname()
 	{
-		if (app()->bound('request'))
-		{
-			if (app()['request'] instanceof ArgvInput)
-			{
+		if (app()->bound('request')) {
+			if (app()['request'] instanceof ArgvInput) {
 				return 'localhost';
 			}
 
@@ -207,5 +186,4 @@ class Environment {
 		// 	dd("Environment variable not set: $variable");
 		// }
 	}
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support;
+namespace Netesy\Support;
 
 use Illuminate\Foundation\AliasLoader as IlluminateAliasLoader;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
@@ -152,7 +152,8 @@ abstract class ServiceProvider extends IlluminateServiceProvider
 	{
 		if (file_exists($configFile = $this->getRootDirectory() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php')) {
 			$this->mergeConfigFrom(
-				$configFile, $this->packageName
+				$configFile,
+				$this->packageName
 			);
 		}
 	}

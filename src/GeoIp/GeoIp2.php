@@ -1,6 +1,6 @@
 <?php
 
-namespace PragmaRX\Support\GeoIp;
+namespace Netesy\Support\GeoIp;
 
 use GeoIp2\Database\Reader as GeoIpReader;
 use GeoIp2\Exception\AddressNotFoundException;
@@ -16,13 +16,13 @@ class GeoIp2 extends GeoIpAbstract implements GeoIpContract
         $this->reader = new GeoIpReader($this->getGeoliteFileName($databasePath));
     }
 
-    public function searchAddr($addr) {
-        if ( ! $this->isEnabled()) {
+    public function searchAddr($addr)
+    {
+        if (!$this->isEnabled()) {
             return;
         }
 
-        if ($this->geoIpData = $this->getCity($addr))
-        {
+        if ($this->geoIpData = $this->getCity($addr)) {
             return $this->renderData();
         }
 
@@ -35,11 +35,13 @@ class GeoIp2 extends GeoIpAbstract implements GeoIpContract
      * @param null $databasePath
      * @return string
      */
-    private function getGeoliteFileName($databasePath = null) {
+    private function getGeoliteFileName($databasePath = null)
+    {
         return ($databasePath ?: __DIR__) . DIRECTORY_SEPARATOR . static::DATABASE_FILE_NAME;
     }
 
-    private function renderData() {
+    private function renderData()
+    {
         return [
             'latitude' => $this->geoIpData->location->latitude,
             'longitude' => $this->geoIpData->location->longitude,
@@ -60,13 +62,11 @@ class GeoIp2 extends GeoIpAbstract implements GeoIpContract
      * @param $addr
      * @return \GeoIp2\Model\City
      */
-    private function getCity($addr) {
-        try
-        {
+    private function getCity($addr)
+    {
+        try {
             $city = $this->reader->city($addr);
-        }
-        catch (AddressNotFoundException $e)
-        {
+        } catch (AddressNotFoundException $e) {
             $city = null;
         }
 

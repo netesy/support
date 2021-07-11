@@ -1,18 +1,18 @@
 <?php
 
-namespace PragmaRX\Support\Inflectors;
+namespace Netesy\Support\Inflectors;
 
-class Inflector {
+class Inflector
+{
 
 	protected static $localizedInflectors = [
-		'en' => 'PragmaRX\Support\Inflectors\En',
-		'pt' => 'PragmaRX\Support\Inflectors\PtBr',
+		'en' => 'Netesy\Support\Inflectors\En',
+		'pt' => 'Netesy\Support\Inflectors\PtBr',
 	];
 
 	public function inflect($word, $count)
 	{
-		if ($count > 1)
-		{
+		if ($count > 1) {
 			return $this->plural($word);
 		}
 
@@ -26,32 +26,27 @@ class Inflector {
 		return $inflector->plural($word);
 	}
 
-    public static function singular($word)
-    {
-	    $inflector = static::getInflector();
+	public static function singular($word)
+	{
+		$inflector = static::getInflector();
 
-	    return $inflector->singular($word);
-    }
+		return $inflector->singular($word);
+	}
 
 	private static function getInflector()
 	{
 		$inflector = static::$localizedInflectors['en'];
 
-		if (function_exists('app'))
-		{
+		if (function_exists('app')) {
 			$locale = app()->make('translator')->getLocale();
 
-			foreach (static::$localizedInflectors as $lang => $class)
-			{
-				if (starts_with($locale, $lang))
-				{
+			foreach (static::$localizedInflectors as $lang => $class) {
+				if (starts_with($locale, $lang)) {
 					$inflector = $class;
 				}
 			}
-
 		}
 
 		return new $inflector;
 	}
-
-} 
+}
